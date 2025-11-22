@@ -1,0 +1,69 @@
+.Dd $Mdocdate$
+.Dt SCONF 3
+.Os
+.Sh NAME
+.Nm sconf
+.Nd sexp library
+.Sh SYNOPSIS
+.Lb libsconf
+.In sconf.h
+.Ft const char *
+.Fn sconf_version void
+.Ft struct sconf *
+.Fn sconf_load "FILE *fp"
+.Ft struct sconf *
+.Fn sconf_parse "const char *str"
+.Ft struct sconf *
+.Fn sconf_parse_with_len "const char *str" "size_t len"
+.Ft void
+.Fn sconf_dump "FILE *fp" "struct sconf *sexp"
+.Ft struct sconf *
+.Fn sconf_new_list "void"
+.Ft struct sconf *
+.Fn sconf_new_symbol "const char *sym"
+.Ft struct sconf *
+.Fn sconf_new_string "const char *str"
+.Ft struct sconf *
+.Fn sconf_new_char "char c"
+.Ft struct sconf *
+.Fn sconf_new_int "int i"
+.Ft struct sconf *
+.Fn sconf_new_double "double d"
+.Ft struct sconf *
+.Fn sconf_new_bool "enum sconf_bool b"
+.Ft struct sconf *
+.Fn sconf_new_true "void"
+.Ft struct sconf *
+.Fn sconf_new_false "void"
+.Ft struct sconf *
+.Fn sconf_new_nil "void"
+.Ft int
+.Fn sconf_list_append "struct sconf *lst" "struct sconf *itm"
+.Ft int
+.Fn sconf_list_appends "struct sconf *lst" "..."
+.Ft int
+.Fn sconf_list_remove "struct sconf *lst" "struct sconf *itm"
+.Ft int
+.Fn sconf_list_size "struct sconf *lst"
+.Ft struct sconf *
+.Fn sconf_list_at "struct sconf *lst" "int idx"
+.Ft struct sconf *
+.Fn sconf_list_first "struct sconf *lst"
+.Ft void
+.Fn sconf_destroy "struct sconf *sexp"
+.Ft enum sconf_error
+.Fn sconf_get_last_error "void"
+.Ft const char *
+.Fn sconf_error_str "enum sconf_error err"
+.Ft int
+.Fn sconf_is_bool "struct sconf *sexp"
+.Ft int
+.Fn sconf_is_true "struct sconf *sexp"
+.Sh DESCRIPTION
+.Sh AUTHORS
+.An -nosplit
+The
+.Nm
+library was written by
+.An d0p1 .
+.Sh BUGS

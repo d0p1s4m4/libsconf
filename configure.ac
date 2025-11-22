@@ -1,0 +1,30 @@
+AC_PREREQ([2.71])
+
+AC_INIT([libsconf], [1.0])
+AC_COPYRIGHT([Copyright (C) 2025 d0p1])
+
+AC_CONFIG_SRCDIR([sconf.c])
+AC_CONFIG_AUX_DIR([build-aux])
+AC_REQUIRE_AUX_FILE([tap-driver.sh])
+
+AM_INIT_AUTOMAKE([foreign subdir-objects])
+
+AM_SILENT_RULES([yes])
+AM_MAINTAINER_MODE
+
+AC_CONFIG_HEADERS([config.h])
+
+AC_LANG([C])
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_CC_C_O
+AC_PROG_RANLIB
+
+AC_C_CONST
+AC_C_INLINE
+
+AC_CHECK_INCLUDES_DEFAULT
+
+AC_CONFIG_FILES([Makefile])
+
+AC_OUTPUT
