@@ -1,6 +1,8 @@
 noinst_LIBRARIES = libsconf.a
 libsconf_a_SOURCES = sconf.c
 
+include_HEADERS = sconf.h
+
 EXTRA_DIST = LICENSE
 
 man_MANS = sconf.3

@@ -645,6 +645,68 @@ parse_symbol(struct sconf *itm, struct parser *p)
 }
 
 static int
+parse_char(struct sconf *itm, struct parser *p)
+{
+	int c;
+
+	cstr_reset(&p->buff);
+
+	do
+	{
+		c = parse_next(p);
+		cstr_append(&p->buff, c);
+		c = parse_get(p);
+	}
+	while (isalpha(c));
+
+	cstr_append(&p->buff, '\0');
+
+	itm->type = SCONF_T_CHAR;
+
+	if (strcmp(p->buff.s, "newline") == 0)
+	{
+		itm->value.as_int = 0xA;
+	}
+	else if (strcmp(p->buff.s, "alarm") == 0)
+	{
+		itm->value.as_int = 0x7;
+	}
+	else if (strcmp(p->buff.s, "backspace") == 0)
+	{
+		itm->value.as_int = 0x8;
+	}
+	else if (strcmp(p->buff.s, "delete") == 0)
+	{
+		itm->value.as_int = 0x7F;
+	}
+	else if (strcmp(p->buff.s, "escape") == 0)
+	{
+		itm->value.as_int = 0x1B;
+	}
+	else if (strcmp(p->buff.s, "space") == 0)
+	{
+		itm->value.as_int = ' ';
+	}
+	else if (strcmp(p->buff.s, "null") == 0)
+	{
+		itm->value.as_int = 0x0;
+	}
+	else if (strcmp(p->buff.s, "return") == 0)
+	{
+		itm->value.as_int = 0xD;
+	}
+	else if (strcmp(p->buff.s, "tab") == 0)
+	{
+		itm->value.as_int = 0x9;
+	}
+	else
+	{
+		itm->value.as_int = p->buff.s[0];
+	}
+	return (SCONF_TRUE);
+}
+
+static int
 parse_string(struct sconf *itm, struct parser *p)
 {
 	int c;
@@ -712,6 +774,8 @@ parse_value(struct sconf *itm, struct parser *p)
 		return (parse_list(itm, p));
 		break;
 	case '\\':
+		p->off++;
+		return (parse_char(itm, p));
 		break; /* char */
 	case '"':
 		p->off++;

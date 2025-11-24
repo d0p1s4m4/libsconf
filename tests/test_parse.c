@@ -188,6 +188,20 @@ test_parse_string_unexpected_eof(void **state)
 	assert_null(s);
 }
 
+static void
+test_parse_char(void **state)
+{
+	const char *str = "\\o";
+	struct sconf *s;
+
+	s = sconf_parse(str);
+	assert_non_null(s);
+	assert_int_equal(s->type, SCONF_T_CHAR);
+	assert_int_equal(s->value.as_int, 'o');
+
+	sconf_destroy(s);
+}
+
 int
 main(void)
 {
@@ -205,6 +219,7 @@ main(void)
 		cmocka_unit_test(test_parse_string),
 		cmocka_unit_test(test_parse_list_of_string),
 		cmocka_unit_test(test_parse_string_unexpected_eof),
+		cmocka_unit_test(test_parse_char),
 	};
 
 	cmocka_set_message_output(CM_OUTPUT_TAP);
