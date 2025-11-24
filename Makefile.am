@@ -1,6 +1,7 @@
-noinst_LIBRARIES = libsconf.a
-libsconf_a_SOURCES = sconf.c
+ACLOCAL_AMFLAGS = -I m4
 
+lib_LTLIBRARIES = libsconf.la
+libsconf_la_SOURCES = sconf.c
 include_HEADERS = sconf.h
 
 EXTRA_DIST = LICENSE
@@ -14,5 +15,5 @@ TESTS = $(check_PROGRAMS)
 
 check_PROGRAMS = test_parse
 test_parse_SOURCES = tests/test_parse.c
-test_parse_LDADD = -lcmocka libsconf.a
+test_parse_LDADD = -lcmocka libsconf.la
 test_parse_CPPFLAGS = -I$(top_srcdir)

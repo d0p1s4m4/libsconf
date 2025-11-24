@@ -1,5 +1,6 @@
 *~
 .deps
+.libs
 *.status
 *.o
 *.obj
@@ -12,6 +13,8 @@
 stamp-h1
 TAGS
 *.a
+*.lo
+*.la
 config.h
 .dirstamp
 /configure
