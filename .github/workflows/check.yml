@@ -1,0 +1,31 @@
+name: check
+
+on: [push, pull_request]
+
+jobs:
+  make-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install build-essential libcmocka-dev
+      - name: configure
+        run: |
+          autoreconf -i -f
+          ./configure
+      - name: make check
+        run: |
+          make check
+  cppcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install cppcheck
+      - name: cppcheck
+        run: |
+          cppcheck -x c --std=c99 --error-exitcode=2 --check-level=exhaustive --quiet --enable=warning,performance,portability .

@@ -1,5 +1,3 @@
-ACLOCAL_AMFLAGS = -I m4
-
 lib_LTLIBRARIES = libsconf.la
 libsconf_la_SOURCES = sconf.c
 include_HEADERS = sconf.h

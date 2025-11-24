@@ -16,6 +16,8 @@ extern "C"
 {
 # endif /* __cplusplus */
 
+# define SCONF_END ((struct sconf *)0)
+
 enum sconf_error {
 	SCONF_OK = 0,
 	SCONF_ERR_MALLOC,

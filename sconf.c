@@ -52,6 +52,7 @@ sconf_new(void)
 	if (sexp == NULL)
 	{
 		sconf_last_error = SCONF_ERR_MALLOC;
+		return (NULL);
 	}
 
 	sexp->next = NULL;
@@ -237,7 +238,6 @@ int
 sconf_list_remove(struct sconf *lst, struct sconf *itm)
 {
 	struct sconf *child;
-	struct sconf *tmp;
 
 	if (lst == NULL || itm == NULL)
 	{
@@ -567,13 +567,11 @@ static int
 parse_number(struct sconf *itm, struct parser *p)
 {
 	int floating;
-	int i;
 	int c;
 	double val;
 
 	cstr_reset(&p->buff);
 	floating = 0;
-	i = 0;
 	do
 	{
 		c = parse_next(p);
@@ -584,7 +582,7 @@ parse_number(struct sconf *itm, struct parser *p)
 		}
 		c = parse_get(p);
 	}
-	while (i < 127 && (isalnum(c) || c == '-' || c == '.'));
+	while (isalnum(c) || c == '-' || c == '.');
 	cstr_append(&p->buff, '\0');
 
 	val = strtod(p->buff.s, NULL);
@@ -864,6 +862,7 @@ sconf_load(FILE *fp)
 
 	if (fread(content, fsz, 1, fp) != 1)
 	{
+		free(content);
 		return (NULL);
 	}
 
