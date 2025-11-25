@@ -275,7 +275,7 @@ sconf_list_remove(struct sconf *lst, struct sconf *itm)
 }
 
 int
-sconf_list_size(struct sconf *lst)
+sconf_list_size(const struct sconf *lst)
 {
 	int sz;
 	struct sconf *tmp;
@@ -292,7 +292,7 @@ sconf_list_size(struct sconf *lst)
 }
 
 struct sconf *
-sconf_list_at(struct sconf *lst, int idx)
+sconf_list_at(const struct sconf *lst, int idx)
 {
 	int curr_idx;
 	struct sconf *tmp;
@@ -346,7 +346,7 @@ sconf_destroy(struct sconf *sexp)
 }
 
 static void
-dump_level(FILE *fp, struct sconf *sexp, int level)
+dump_level(FILE *fp, const struct sconf *sexp, int level)
 {
 	struct sconf *child;
 
@@ -404,7 +404,7 @@ dump_level(FILE *fp, struct sconf *sexp, int level)
 }
 
 void
-sconf_dump(FILE *fp, struct sconf *sexp)
+sconf_dump(FILE *fp, const struct sconf *sexp)
 {
 	dump_level(fp, sexp, 1);
 }
@@ -473,7 +473,7 @@ cstr_append(struct cstr *cs, char c)
 static int parse_value(struct sconf *itm, struct parser *p);
 
 static inline int
-parse_get(struct parser *p)
+parse_get(const struct parser *p)
 {
 	int c;
 

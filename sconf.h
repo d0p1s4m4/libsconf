@@ -59,7 +59,7 @@ const char *sconf_version(void);
 struct sconf *sconf_load(FILE *fp);
 struct sconf *sconf_parse(const char *str);
 struct sconf *sconf_parse_with_len(const char *str, size_t len);
-void sconf_dump(FILE *fp, struct sconf *sexp);
+void sconf_dump(FILE *fp, const struct sconf *sexp);
 struct sconf *sconf_new_list(void);
 struct sconf *sconf_new_symbol(const char *sym);
 struct sconf *sconf_new_string(const char *str);
@@ -73,58 +73,58 @@ struct sconf *sconf_new_nil(void);
 int sconf_list_append(struct sconf *lst, struct sconf *itm);
 int sconf_list_appends(struct sconf *lst, ...);
 int sconf_list_remove(struct sconf *lst, struct sconf *itm);
-int sconf_list_size(struct sconf *lst);
-struct sconf *sconf_list_at(struct sconf *lst, int idx);
+int sconf_list_size(const struct sconf *lst);
+struct sconf *sconf_list_at(const struct sconf *lst, int idx);
 struct sconf *sconf_list_first(struct sconf *lst);
 void sconf_destroy(struct sconf *sexp);
 enum sconf_error sconf_get_last_error(void);
 const char *sconf_error_str(enum sconf_error err);
 
 static inline int
-sconf_is_bool(struct sconf *sexp)
+sconf_is_bool(const struct sconf *sexp)
 {
 	return (sexp != NULL && sexp->type == SCONF_T_BOOL);
 }
 
 static inline int
-sconf_is_true(struct sconf *sexp)
+sconf_is_true(const struct sconf *sexp)
 {
 	return (sconf_is_bool(sexp) && sexp->value.as_int == SCONF_TRUE);
 }
 
 static inline int
-sconf_is_false(struct sconf *sexp)
+sconf_is_false(const struct sconf *sexp)
 {
 	return (!sconf_is_bool(sexp) /* if not bool default as false */
 			|| sexp->value.as_int == SCONF_FALSE);
 }
 
 static inline int
-sconf_is_int(struct sconf *sexp)
+sconf_is_int(const struct sconf *sexp)
 {
 	return (sexp != NULL && sexp->type == SCONF_T_INT);
 }
 
 static inline int
-sconf_is_double(struct sconf *sexp)
+sconf_is_double(const struct sconf *sexp)
 {
 	return (sexp != NULL && sexp->type == SCONF_T_DOUBLE);
 }
 
 static inline int
-sconf_is_string(struct sconf *sexp)
+sconf_is_string(const struct sconf *sexp)
 {
 	return (sexp != NULL && sexp->type == SCONF_T_STRING);
 }
 
 static inline int
-sconf_is_symbol(struct sconf *sexp)
+sconf_is_symbol(const struct sconf *sexp)
 {
 	return (sexp != NULL && sexp->type == SCONF_T_SYMBOL);
 }
 
 static inline int
-sconf_is_list(struct sconf *sexp)
+sconf_is_list(const struct sconf *sexp)
 {
 	return (sexp != NULL && sexp->type == SCONF_T_LIST);
 }
