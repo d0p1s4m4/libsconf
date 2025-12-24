@@ -542,6 +542,7 @@ parse_list(struct sconf *itm, struct parser *p)
 		c = parse_get(p);
 		if (c == ')')
 		{
+			p->off++;
 			return (SCONF_TRUE);
 		}
 		else if (c == EOF)

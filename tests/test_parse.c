@@ -83,7 +83,22 @@ test_parse_list(void **state)
 	assert_int_equal(s->type, SCONF_T_LIST);
 	assert_non_null(s->value.as_child);
 	assert_int_equal(sconf_list_size(s), 4);
-	
+
+	sconf_destroy(s);
+}
+
+static void
+test_parse_list_with_sublist(void **state)
+{
+	const char *str = "(sym () () ())";
+	struct sconf *s;
+
+	s = sconf_parse(str);
+	assert_non_null(s);
+	assert_int_equal(s->type, SCONF_T_LIST);
+	assert_non_null(s->value.as_child);
+	assert_int_equal(sconf_list_size(s), 4);
+
 	sconf_destroy(s);
 }
 
@@ -211,6 +226,7 @@ main(void)
 		cmocka_unit_test(test_parse_bool),
 		cmocka_unit_test(test_parse_symbol),
 		cmocka_unit_test(test_parse_list),
+		cmocka_unit_test(test_parse_list_with_sublist),
 		cmocka_unit_test(test_parse_empty_list_unexpected_eof),
 		cmocka_unit_test(test_parse_list_unexpected_eof),
 		cmocka_unit_test(test_parse_int),
@@ -226,4 +242,3 @@ main(void)
 
 	return (cmocka_run_group_tests(tests, NULL, NULL));
 }
-
