@@ -6,6 +6,8 @@ EXTRA_DIST = LICENSE
 
 man_MANS = sconf.3
 
+pkgconfig_DATA = sconf.pc
+
 LOG_DRIVER = env AM_TAP_AWK='$(AWK)' $(SHELL) \
                   $(top_srcdir)/build-aux/tap-driver.sh
 

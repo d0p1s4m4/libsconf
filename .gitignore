@@ -19,3 +19,6 @@ config.h
 .dirstamp
 /configure
 Makefile
+test_api
+test_parse
+!sconf.pc.in
