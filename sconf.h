@@ -238,6 +238,23 @@ sconf_is_list(const struct sconf *sexp)
 	return (sexp != NULL && sexp->type == SCONF_T_LIST);
 }
 
+static inline char *
+sconf_get_string_value(const struct sconf *sexp)
+{
+	if (!sconf_is_string(sexp)) return (NULL);
+
+	return (sexp->value.as_string);
+}
+
+
+static inline char *
+sconf_get_symbol_value(const struct sconf *sexp)
+{
+	if (!sconf_is_symbol(sexp)) return (NULL);
+
+	return (sexp->value.as_string);
+}
+
 # ifdef __cplusplus
 }
 # endif /* __cplusplus */
