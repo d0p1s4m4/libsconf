@@ -38,6 +38,7 @@ enum sconf_error {
 	SCONF_ERR_MALLOC,      /**< Memory allocation failed */
 	SCONF_ERR_OUTOFBOUND,  /**< Index out of range */
 	SCONF_ERR_NOTALIST,    /**< Value is not a list */
+	SCONF_ERR_EOF,         /**< Unexpected EOF during parsing */
 };
 
 /**
@@ -172,7 +173,21 @@ struct sconf *sconf_list_at(const struct sconf *lst, int idx);
  * \param lst list root
  * \return Object or NULL on empty list.
  */
-struct sconf *sconf_list_first(struct sconf *lst);
+struct sconf *sconf_list_first(const struct sconf *lst);
+
+/**
+ * \brief Return the last element of a list.
+ * \param lst list root
+ * \return Object or NULL on empty list.
+ */
+struct sconf *sconf_list_last(const struct sconf *lst);
+
+/**
+ * \brief Check if list is empty.
+ * \param lst list root
+ * \return SCONF_TRUE if empty, SCONF_FALSE otherwhise.
+ */
+int sconf_list_empty(const struct sconf *lst);
 
 /**
  * \brief Free an S-expression object.

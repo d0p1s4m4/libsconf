@@ -37,7 +37,9 @@ sconf_error_str(enum sconf_error err)
 	case SCONF_ERR_OUTOFBOUND:
 		return ("index out of bound");
 	case SCONF_ERR_NOTALIST:
-		return ("is not a list");
+		return ("object is not a list");
+	case SCONF_ERR_EOF:
+		return ("unexpected eof");
 	default:
 		return ("???");
 	}
@@ -297,8 +299,13 @@ sconf_list_at(const struct sconf *lst, int idx)
 	int curr_idx;
 	struct sconf *tmp;
 
-	if (lst == NULL) return (NULL);
-	if (idx < 0) return (NULL);
+	if (lst == NULL)
+	{
+		sconf_last_error = SCONF_ERR_NOTALIST;
+		return (NULL);
+	}
+
+	if (idx < 0) goto err_outofbound;
 
 	curr_idx = 0;
 	for (tmp = lst->value.as_child; tmp != NULL; tmp = tmp->next)
@@ -306,16 +313,49 @@ sconf_list_at(const struct sconf *lst, int idx)
 		if (curr_idx == idx) return (tmp);
 		curr_idx++;
 	}
+
+err_outofbound:
+	sconf_last_error = SCONF_ERR_OUTOFBOUND;
 	return (NULL);
 }
 
 struct sconf *
-sconf_list_first(struct sconf *lst)
+sconf_list_first(const struct sconf *lst)
 {
-	if (lst == NULL) return (NULL);
-	if (lst->type != SCONF_T_LIST) return (NULL);
+	if (sconf_list_empty(lst) == SCONF_TRUE)
+	{
+		return (NULL);
+	}
 
 	return (lst->value.as_child);
+}
+
+struct sconf *
+sconf_list_last(const struct sconf *lst)
+{
+	if (sconf_list_empty(lst) == SCONF_TRUE)
+	{
+		return (NULL);
+	}
+
+	return (lst->value.as_child->prev);
+}
+
+int
+sconf_list_empty(const struct sconf *lst)
+{
+	if (!sconf_is_list(lst))
+	{
+		sconf_last_error = SCONF_ERR_NOTALIST;
+		return (SCONF_TRUE);
+	}
+
+	if (lst->value.as_child == NULL)
+	{
+		return (SCONF_TRUE);
+	}
+
+	return (SCONF_FALSE);
 }
 
 void
@@ -547,6 +587,7 @@ parse_list(struct sconf *itm, struct parser *p)
 		}
 		else if (c == EOF)
 		{
+			sconf_last_error = SCONF_ERR_EOF;
 			return (SCONF_FALSE);
 		}
 
@@ -752,6 +793,7 @@ parse_string(struct sconf *itm, struct parser *p)
 	while (c != EOF);
 
 	/* unexpected eof */
+	sconf_last_error = SCONF_ERR_EOF;
 	return (SCONF_FALSE);
 }
 
